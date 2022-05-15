@@ -7,8 +7,8 @@ public class LuckyTicketsSolutionTest {
 
     @ParameterizedTest
     @OtusAlgoDataSource(path = "C:\\Users\\Дмитрий\\work\\A01_Счастливые_билеты-1801-057a77")
-    void check(Integer input, Long expected) {
+    void shouldReturnAllTrue(Integer input, Long expected) {
         System.out.printf("input=%s, expected=%s%n", input, expected);
-        assertEquals(luckyTicketsSolution.countLuckyTicketsWithDigit(input), expected);
+        assertEquals(expected, luckyTicketsSolution.countLuckyTicketsWithDigit(input));
     }
 }
