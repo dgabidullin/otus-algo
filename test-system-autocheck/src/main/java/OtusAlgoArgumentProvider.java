@@ -14,8 +14,10 @@ import java.util.stream.Stream;
 
 public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationConsumer<OtusAlgoDataSource> {
 
-    private String path;
+    private final static String OTUS_FILE_DELIMITER = "\\.";
 
+    private String path;
+    
     private final Map<Integer, TestData> mapOfData = new HashMap<>();
 
     @Override
@@ -26,7 +28,7 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
                 if (file.getName().endsWith(".in")) {
                     putInputData(file);
                 }
-                if (file.getName().endsWith(".out")) {
+                else if (file.getName().endsWith(".out")) {
                     putExpectedData(file);
                 }
             }
@@ -58,12 +60,12 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
     private void putExpectedData(File file) throws IOException {
         int testNumber = getTestNumberFromFile(file);
         TestData data = mapOfData.getOrDefault(testNumber, new TestData());
-        data.setExpected(Long.parseLong(FileUtils.readFileToString(file, StandardCharsets.UTF_8).trim()));
+        data.setExpected(Long.parseLong(readFileToStringWithTrim(file)));
         mapOfData.put(testNumber, data);
     }
 
     private int getTestNumberFromFile(File file) {
-        String[] fileNameSplit = file.getName().split("\\.");
+        String[] fileNameSplit = file.getName().split(OTUS_FILE_DELIMITER);
         return Integer.parseInt(fileNameSplit[1]);
     }
 
