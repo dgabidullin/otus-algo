@@ -11,7 +11,7 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>homework-2</artifactId>
+    <artifactId>homework-2-lucky-tickets</artifactId>
     <version>MASTER-SNAPSHOT</version>
 
     <dependencies>
