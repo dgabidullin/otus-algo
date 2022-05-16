@@ -14,11 +14,11 @@ import java.util.stream.Stream;
 
 public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationConsumer<OtusAlgoDataSource> {
 
-    private final static String OTUS_FILE_DELIMITER = "\\.";
+    private final static String OTUS_FORMAT_FILE_DELIMITER = "\\.";
 
-    private String path;
-    
     private final Map<Integer, TestData> mapOfData = new HashMap<>();
+    
+    private String path;
 
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
@@ -65,7 +65,7 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
     }
 
     private int getTestNumberFromFile(File file) {
-        String[] fileNameSplit = file.getName().split(OTUS_FILE_DELIMITER);
+        String[] fileNameSplit = file.getName().split(OTUS_FORMAT_FILE_DELIMITER);
         return Integer.parseInt(fileNameSplit[1]);
     }
 
