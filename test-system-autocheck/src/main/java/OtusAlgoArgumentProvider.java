@@ -113,10 +113,10 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
         return Integer.parseInt(fileNameSplit[1]);
     }
 
-    private interface Data {
+    private sealed interface Data permits TestData, TestTwoInputData {
     }
 
-    private static class TestData implements Data {
+    private static final class TestData implements Data {
         private Integer input;
         private Long expected;
 
@@ -137,7 +137,7 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
         }
     }
 
-    private static class TestTwoInputData implements Data {
+    private static final class TestTwoInputData implements Data {
         private double input1;
         private Long input2;
         private double expected;
