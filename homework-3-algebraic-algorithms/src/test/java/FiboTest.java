@@ -1,13 +1,13 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.ParameterizedTest;
 
-public class PrimeTest {
+public class FiboTest {
 
-    private final Prime prime = new Prime();
+    private final Fibo fibo = new Fibo();
 
     @ParameterizedTest
-    @OtusAlgoDataSource(path = "C:\\Users\\Дмитрий\\work\\5.Primes")
+    @OtusAlgoDataSource(path = "C:\\Users\\Дмитрий\\work\\4.Fibo")
     void shouldReturnAllTrue(Integer input, Long expected) {
-        assertEquals(expected, prime.Eratosthenes(input));
+        assertEquals(expected, fibo.fibo2(input));
     }
 }
