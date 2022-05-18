@@ -31,7 +31,7 @@ public class Prime {
         return count;
     }
 
-    public long countPrimes(int n) {
+    public int countPrimes(int n) {
         if (n == 1) return 0;
         int count = 0;
         long[] primes = new long[n / 2 + 1];
