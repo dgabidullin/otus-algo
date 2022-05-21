@@ -13,7 +13,7 @@
         <module>homework-2-lucky-tickets</module>
         <module>test-system-autocheck</module>
         <module>homework-3-algebraic-algorithms</module>
-        <module>homework-4-boolean-algebra</module>
+        <module>homework-4-bitwise-arithmetic</module>
     </modules>
 
     <properties>

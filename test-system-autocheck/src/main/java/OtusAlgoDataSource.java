@@ -15,4 +15,6 @@ public @interface OtusAlgoDataSource {
     String path();
 
     boolean twoInputArguments() default false;
+
+    boolean twoOutputStringArguments() default false;
 }

@@ -25,6 +25,8 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
 
     private boolean twoInputArguments;
 
+    private boolean twoOutputArguments;
+
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
         File folder = new File(path);
@@ -44,6 +46,7 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
     public void accept(OtusAlgoDataSource otusAlgoDataSource) {
         path = otusAlgoDataSource.path();
         twoInputArguments = otusAlgoDataSource.twoInputArguments();
+        twoOutputArguments = otusAlgoDataSource.twoOutputStringArguments();
     }
 
     @Override
@@ -55,12 +58,17 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
         if (twoInputArguments) {
             return mapOfData.values().stream().map(TestTwoInputData.class::cast).map(testTwoInputData -> Arguments.of(testTwoInputData.input1, testTwoInputData.input2, testTwoInputData.expected));
         }
+        if (twoOutputArguments) {
+            return mapOfData.values().stream().map(StringTwoOutputData.class::cast).map(stringTwoOutputData -> Arguments.of(stringTwoOutputData.input, stringTwoOutputData.expected1, stringTwoOutputData.expected2));
+        }
         return mapOfData.values().stream().map(TestData.class::cast).map(testData -> Arguments.of(testData.input, testData.expected));
     }
 
     private void putInputData(File file) throws IOException {
         if (twoInputArguments) {
             putTwoInputDataInternal(file);
+        } else if (twoOutputArguments) {
+            putInputStringDataInternal(file);
         } else {
             putInputDataInternal(file);
         }
@@ -69,6 +77,8 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
     private void putExpectedData(File file) throws IOException {
         if (twoInputArguments) {
             putTwoInputExpectedDataInternal(file);
+        } else if (twoOutputArguments) {
+            putTwoOutputStringExpectedDataInternal(file);
         } else {
             putExpectedDataInternal(file);
         }
@@ -77,7 +87,14 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
     private void putInputDataInternal(File file) throws IOException {
         int testNumber = getTestNumberFromFile(file);
         TestData data = (TestData) mapOfData.getOrDefault(testNumber, new TestData());
-        data.setInput(Integer.parseInt(readFileToStringWithTrim(file)));
+        data.input = Integer.parseInt(readFileToStringWithTrim(file));
+        mapOfData.put(testNumber, data);
+    }
+
+    private void putInputStringDataInternal(File file) throws IOException {
+        int testNumber = getTestNumberFromFile(file);
+        StringTwoOutputData data = (StringTwoOutputData) mapOfData.getOrDefault(testNumber, new StringTwoOutputData());
+        data.input = readFileToStringWithTrim(file);
         mapOfData.put(testNumber, data);
     }
 
@@ -85,22 +102,31 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
         int testNumber = getTestNumberFromFile(file);
         TestTwoInputData data = (TestTwoInputData) mapOfData.getOrDefault(testNumber, new TestTwoInputData());
         String[] content = readFileToStringWithTrim(file).split(OTUS_FORMAT_FILE_END_LINE_DELIMITER);
-        data.setInput1(Double.parseDouble(content[0]));
-        data.setInput2(Long.parseLong(content[1]));
+        data.input1 = Double.parseDouble(content[0]);
+        data.input2 = Long.parseLong(content[1]);
         mapOfData.put(testNumber, data);
     }
 
     private void putExpectedDataInternal(File file) throws IOException {
         int testNumber = getTestNumberFromFile(file);
         TestData data = (TestData) mapOfData.getOrDefault(testNumber, new TestData());
-        data.setExpected(Long.parseLong(readFileToStringWithTrim(file)));
+        data.expected = Long.parseLong(readFileToStringWithTrim(file));
         mapOfData.put(testNumber, data);
     }
 
     private void putTwoInputExpectedDataInternal(File file) throws IOException {
         int testNumber = getTestNumberFromFile(file);
         TestTwoInputData data = (TestTwoInputData) mapOfData.getOrDefault(testNumber, new TestTwoInputData());
-        data.setExpected(Double.parseDouble(readFileToStringWithTrim(file)));
+        data.expected = Double.parseDouble(readFileToStringWithTrim(file));
+        mapOfData.put(testNumber, data);
+    }
+
+    private void putTwoOutputStringExpectedDataInternal(File file) throws IOException {
+        int testNumber = getTestNumberFromFile(file);
+        StringTwoOutputData data = (StringTwoOutputData) mapOfData.getOrDefault(testNumber, new StringTwoOutputData());
+        String[] content = readFileToStringWithTrim(file).split(OTUS_FORMAT_FILE_END_LINE_DELIMITER);
+        data.expected1 = content[0];
+        data.expected2 = content[1];
         mapOfData.put(testNumber, data);
     }
 
@@ -113,57 +139,23 @@ public class OtusAlgoArgumentProvider implements ArgumentsProvider, AnnotationCo
         return Integer.parseInt(fileNameSplit[1]);
     }
 
-    private sealed interface Data permits TestData, TestTwoInputData {
+    private sealed interface Data permits TestData, TestTwoInputData, StringTwoOutputData {
     }
 
     private static final class TestData implements Data {
-        private Integer input;
-        private Long expected;
-
-        public Integer getInput() {
-            return input;
-        }
-
-        public void setInput(Integer input) {
-            this.input = input;
-        }
-
-        public Long getExpected() {
-            return expected;
-        }
-
-        public void setExpected(Long expected) {
-            this.expected = expected;
-        }
+        public Integer input;
+        public Long expected;
     }
 
     private static final class TestTwoInputData implements Data {
-        private double input1;
-        private Long input2;
-        private double expected;
+        public double input1;
+        public Long input2;
+        public double expected;
+    }
 
-        public double getInput1() {
-            return input1;
-        }
-
-        public void setInput1(double input1) {
-            this.input1 = input1;
-        }
-
-        public Long getInput2() {
-            return input2;
-        }
-
-        public void setInput2(Long input2) {
-            this.input2 = input2;
-        }
-
-        public double getExpected() {
-            return expected;
-        }
-
-        public void setExpected(double expected) {
-            this.expected = expected;
-        }
+    private static final class StringTwoOutputData implements Data {
+        public String input;
+        public String expected1;
+        public String expected2;
     }
 }
