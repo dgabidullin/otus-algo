@@ -30,12 +30,10 @@ public class SingleArray<T> implements IArray<T> {
 
     @Override
     public void add(T item, int index) {
+        checkRangeAdd(index);
         if (size() == 0 && index == 0) {
             add(item);
         } else {
-            if (index > size() || index < 0) {
-                throw new IndexOutOfBoundsException(index);
-            }
             resizeByIndex(index);
             array[index] = item;
         }
@@ -71,6 +69,12 @@ public class SingleArray<T> implements IArray<T> {
                     newArray, index + 1,
                     size() - index);
             array = newArray;
+        }
+    }
+
+    private void checkRangeAdd(int index) {
+        if (index > size() || index < 0) {
+            throw new IndexOutOfBoundsException(index);
         }
     }
 }
