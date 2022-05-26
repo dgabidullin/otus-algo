@@ -1,5 +1,6 @@
 import model.PriorityQueue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 public class PriorityQueueTest {
@@ -13,5 +14,6 @@ public class PriorityQueueTest {
         assertEquals(3, pq.dequeue());
         assertEquals(2, pq.dequeue());
         assertEquals(1, pq.dequeue());
+        assertNull(pq.dequeue());
     }
 }
