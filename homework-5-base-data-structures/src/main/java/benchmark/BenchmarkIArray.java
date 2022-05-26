@@ -70,26 +70,31 @@ public class BenchmarkIArray {
 //        org.openjdk.jmh.Main.main(args);
         testAddBeginningArray(new SingleArray<>(), 100_000);
         testAddEndArray(new SingleArray<>(), 100_000);
+        testAddInMiddleArray(new SingleArray<>(), 100_000);
         testRemoveFromBeginningArray(new SingleArray<>(), 100_000);
         testRemoveFromEndArray(new SingleArray<>(), 100_000);
 
         testAddBeginningArray(new VectorArray<>(), 100_000);
         testAddEndArray(new VectorArray<>(), 100_000);
+        testAddInMiddleArray(new VectorArray<>(), 100_000);
         testRemoveFromBeginningArray(new VectorArray<>(), 100_000);
         testRemoveFromEndArray(new VectorArray<>(), 100_000);
 
         testAddBeginningArray(new FactorArray<>(), 100_000);
         testAddEndArray(new FactorArray<>(), 100_000);
+        testAddInMiddleArray(new FactorArray<>(), 100_000);
         testRemoveFromBeginningArray(new FactorArray<>(), 100_000);
         testRemoveFromEndArray(new FactorArray<>(), 100_000);
 
         testAddBeginningArray(new MatrixArray<>(), 100_000);
         testAddEndArray(new MatrixArray<>(), 100_000);
+        testAddInMiddleArray(new MatrixArray<>(), 100_000);
         testRemoveFromBeginningArray(new MatrixArray<>(), 100_000);
         testRemoveFromEndArray(new MatrixArray<>(), 100_000);
 
         testAddBeginningArray(new ArrayListWrapper<>(), 100_000);
         testAddEndArray(new ArrayListWrapper<>(), 100_000);
+        testAddInMiddleArray(new ArrayListWrapper<>(), 100_000);
         testRemoveFromBeginningArray(new ArrayListWrapper<>(), 100_000);
         testRemoveFromEndArray(new ArrayListWrapper<>(), 100_000);
     }
@@ -98,10 +103,20 @@ public class BenchmarkIArray {
         final long start = System.nanoTime();
 
         for (int j = 0; j < total; j++)
-            data.add(total);
+            data.add(total, 0);
 
         final long millis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
         System.out.println(data + " testAddBeginningArray: " + millis);
+    }
+
+    private static void testAddInMiddleArray(IArray<Integer> data, int total) {
+        final long start = System.nanoTime();
+
+        for (int j = 0; j < total; j++)
+            data.add(total, data.size() / 2);
+
+        final long millis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+        System.out.println(data + " testAddInMiddleArray: " + millis);
     }
 
     private static void testRemoveFromBeginningArray(IArray<Integer> data, int total) {

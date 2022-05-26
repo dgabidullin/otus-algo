@@ -41,7 +41,7 @@ public class MatrixArray<T> implements IArray<T> {
             array.get(i - 1).remove(array.get(i - 1).size() - 1);
         }
         array.get(binToInsert).add(item, index % vector);
-        ++size;
+        size++;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MatrixArray<T> implements IArray<T> {
         if (array.get(array.size() - 1).size() == 0) {
             array.remove(array.size() - 1);
         }
-        --size;
+        size--;
         return oldValue;
     }
 }
