@@ -1,6 +1,5 @@
 import model.MatrixArray;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 public class MatrixArrayTest {
@@ -18,13 +17,5 @@ public class MatrixArrayTest {
         ma.add(4, 1);
         assertEquals(1, ma.get(0));
         assertEquals(4, ma.get(1));
-    }
-
-    @Test
-    void shouldThrowOutOfBoundsException() {
-        final MatrixArray<Integer> ma = new MatrixArray<>();
-        assertThrows(IndexOutOfBoundsException.class, () -> ma.add(4, 99));
-        assertThrows(IndexOutOfBoundsException.class, () -> ma.add(4, -99));
-        assertThrows(IndexOutOfBoundsException.class, () -> ma.remove(99));
     }
 }

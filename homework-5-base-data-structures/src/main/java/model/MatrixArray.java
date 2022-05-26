@@ -8,7 +8,7 @@ public class MatrixArray<T> implements IArray<T> {
 
     public MatrixArray(int vector) {
         this.vector = vector;
-        array = new SingleArray<>();
+        array = new VectorArray<>();
         size = 0;
     }
 
@@ -23,10 +23,7 @@ public class MatrixArray<T> implements IArray<T> {
 
     @Override
     public void add(T item) {
-        if (size == array.size() * vector)
-            array.add(new VectorArray<T>(vector));
-        array.get(size / vector).add(item);
-        size++;
+        add(item, size);
     }
 
     @Override
@@ -37,15 +34,28 @@ public class MatrixArray<T> implements IArray<T> {
     @Override
     public void add(T item, int index) {
         if (size == array.size() * vector)
-            array.add(new VectorArray<T>(vector));
-        array.get(index / vector).add(item, index % vector);
-        size++;
+            array.add(new VectorArray<>(vector));
+        int binToInsert = index / vector;
+        for (int i = array.size() - 1; i > binToInsert; --i) {
+            array.get(i).add(array.get(i - 1).get(array.get(i - 1).size() - 1), 0);
+            array.get(i - 1).remove(array.get(i - 1).size() - 1);
+        }
+        array.get(binToInsert).add(item, index % vector);
+        ++size;
     }
 
     @Override
     public T remove(int index) {
-        T oldValue = array.get(index / vector).remove(index % vector);
-        size--;
+        int binToRemove = index / vector;
+        T oldValue = array.get(binToRemove).remove(index % vector);
+        for (int i = binToRemove + 1; i < array.size(); ++i) {
+            array.get(i - 1).add(array.get(i).get(0));
+            array.get(i).remove(0);
+        }
+        if (array.get(array.size() - 1).size() == 0) {
+            array.remove(array.size() - 1);
+        }
+        --size;
         return oldValue;
     }
 }
