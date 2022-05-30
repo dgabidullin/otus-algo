@@ -1,3 +1,4 @@
+import impl.LuckyTicketsSolution;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.ParameterizedTest;
 

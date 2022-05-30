@@ -1,3 +1,5 @@
+package impl;
+
 public class Power {
 
     public double powIter(double a, long N) {

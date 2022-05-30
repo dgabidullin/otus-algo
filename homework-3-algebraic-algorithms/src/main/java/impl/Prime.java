@@ -1,3 +1,5 @@
+package impl;
+
 public class Prime {
 
     public int Eratosthenes(int n) {

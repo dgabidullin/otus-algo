@@ -1,3 +1,4 @@
+import impl.ChessBitboardMoves
 import org.junit.jupiter.params.ParameterizedTest
 import kotlin.test.assertEquals
 

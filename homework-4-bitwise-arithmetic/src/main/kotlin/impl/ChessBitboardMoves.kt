@@ -1,3 +1,5 @@
+package impl
+
 object ChessBitboardMoves {
 
     fun getKingMoves(position: Int): ULong {

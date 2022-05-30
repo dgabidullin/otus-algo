@@ -1,3 +1,5 @@
+package impl;
+
 public class LuckyTicketsSolution {
 
     public long countLuckyTicketsWithDigit(int n) {
