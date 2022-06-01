@@ -15,6 +15,7 @@
         <module>homework-3-algebraic-algorithms</module>
         <module>homework-4-bitwise-arithmetic</module>
         <module>homework-5-base-data-structures</module>
+        <module>homework-6-simple-sorts</module>
     </modules>
 
     <properties>
